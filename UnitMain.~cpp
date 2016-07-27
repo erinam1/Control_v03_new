@@ -1,0 +1,152 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "UnitMain.h"
+#include "UnitDM.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma link "sSkinProvider"
+#pragma link "sPanel"
+#pragma link "sStatusBar"
+#pragma link "sSplitter"
+#pragma link "acImage"
+#pragma link "sSpeedButton"
+#pragma link "sEdit"
+#pragma link "sBitBtn"
+#pragma link "sGroupBox"
+#pragma link "DBGridEh"
+#pragma link "DBGridEhGrouping"
+#pragma link "GridsEh"
+#pragma link "sMemo"
+#pragma link "DataDriverEh"
+#pragma link "MemTableDataEh"
+#pragma link "MemTableEh"
+#pragma link "DBCtrlsEh"
+#pragma link "DBLookupEh"
+#pragma link "sComboBox"
+#pragma resource "*.dfm"
+TfrmMain *frmMain;
+//---------------------------------------------------------------------------
+__fastcall TfrmMain::TfrmMain(TComponent* Owner)
+   : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmMain::FormCreate(TObject *Sender)
+{  // Глобальный настройки призапуске
+   status=report;
+   ViewInterface(status);
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmMain::ViewInterface(TStatus stat)
+{  // Отображаем интерфейс в зависимости от статуса
+   // Все выключить
+   gbReport->Visible=false;
+   gbRepDat->Visible=false;
+   gbLoad->Visible=false;
+   gbEvents->Visible=false;
+   gbCompany->Visible=false;
+   gbStaff->Visible=false;
+   gbDisp->Visible=false;
+   gbEquip->Visible=false;
+   switch (stat)
+   {
+      case none: // не определено - все выключить
+      break;
+      case report: // отчеты
+         gbReport->Align=alClient;
+         gbRepDat->Align=alClient;
+         gbReport->Visible=true;
+         gbRepDat->Visible=true;
+      break;
+      case load: // загрузка данных
+         gbLoad->Align=alClient;
+         gbEvents->Align=alClient;
+         memLoad->Text="";
+         gbLoad->Visible=true;
+         gbEvents->Visible=true;
+      break;
+      case company: // пользователи
+         gbCompany->Align=alClient;
+         gbStaff->Align=alClient;
+         gbCompany->Visible=true;
+         gbStaff->Visible=true;
+      break;
+      case equip: // оборудование
+         gbDisp->Align=alClient;
+         gbEquip->Align=alClient;
+         gbDisp->Visible=true;
+         gbEquip->Visible=true;
+      break;
+      case logs: // журнал
+      break;
+   }
+   pnlLeftResize(frmMain);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnReportsClick(TObject *Sender)
+{  // отчеты
+   status=report;
+   ViewInterface(status);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnLoadClick(TObject *Sender)
+{  // загрузка данных
+   status=load;
+   ViewInterface(status);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnStaffClick(TObject *Sender)
+{  // Компании-Сотрудники
+   DM->Activity(status, false);   // отключить все прошлые подключения
+   status=company;
+   DM->Activity(status, true);    // подключить нужные таблицы
+   ViewInterface(status);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnEquipClick(TObject *Sender)
+{
+   status=equip;
+   ViewInterface(status);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnLogsClick(TObject *Sender)
+{
+   status=logs;
+   ViewInterface(status);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::pnlLeftResize(TObject *Sender)
+{  // Изменение ширины компонентов при изменении ширины панелей
+   switch (status)
+   {
+      case none: // не определено - все выключить
+      break;
+      case report: // отчеты
+      break;
+      case load: // загрузка данных
+      break;
+      case company: // пользователи
+         dbgCompany->Columns->Items[0]->Width = dbgCompany->ClientWidth*0.9;
+         dbgStaff->Columns->Items[0]->Width = dbgStaff->ClientWidth*0.5;
+         dbgStaff->Columns->Items[1]->Width = dbgStaff->ClientWidth*0.15;
+         dbgStaff->Columns->Items[2]->Width = dbgStaff->ClientWidth*0.15;
+         dbgStaff->Columns->Items[3]->Width = dbgStaff->ClientWidth*0.15;
+      break;
+      case equip: // оборудование
+      break;
+      case logs: // журнал
+      break;
+   }
+}
+//---------------------------------------------------------------------------
+
+
