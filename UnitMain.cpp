@@ -26,6 +26,8 @@
 #pragma link "DBCtrlsEh"
 #pragma link "DBLookupEh"
 #pragma link "sComboBox"
+#pragma link "sCheckBox"
+#pragma link "EhLibMTE"
 #pragma resource "*.dfm"
 TfrmMain *frmMain;
 //---------------------------------------------------------------------------
@@ -36,7 +38,8 @@ __fastcall TfrmMain::TfrmMain(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TfrmMain::FormCreate(TObject *Sender)
 {  // Глобальный настройки призапуске
-   status=report;            // по умолчанию - первая страница Отчеты
+   // status=report;            // TODO: по умолчанию - первая страница Отчеты
+   status=company;            // первая страница Пользователи
    ViewInterface(status);
 }
 //---------------------------------------------------------------------------
@@ -106,7 +109,7 @@ void __fastcall TfrmMain::btnStaffClick(TObject *Sender)
    DM->Activity(status, false);   // отключить все прошлые подключения
    status=company;
    DM->Activity(status, true);    // подключить нужные таблицы
-   ViewInterface(status);
+   ViewInterface(status);         // отобразить интерфейс
 }
 //---------------------------------------------------------------------------
 
@@ -149,4 +152,109 @@ void __fastcall TfrmMain::pnlLeftResize(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmMain::btnOkCompanyClick(TObject *Sender)
+{  // Внести изменения в Компании и закрыть панель детальной информации
+   if(DM->mtCompany->State==dsEdit || DM->mtCompany->State==dsInsert)
+   {
+      dbgCompany->RowDetailPanel->Visible = false;  // без этого error "ListIndex out of bounds (-1)"
+      DM->mtCompany->Post();
+   }
+   dbgCompany->RowDetailPanel->Visible = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnCancelCompanyClick(TObject *Sender)
+{  // Отменить изменения в Компании и закрыть панель детальной информации
+   if(DM->mtCompany->State==dsEdit || DM->mtCompany->State==dsInsert)
+   {
+      dbgCompany->RowDetailPanel->Visible = false;  // без этого error "ListIndex out of bounds (-1)"
+      DM->mtCompany->Cancel();
+   }
+   dbgCompany->RowDetailPanel->Visible = false;   
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnCompanyEditClick(TObject *Sender)
+{  // Перейти в режим редактирования, показать панель детальной информации
+   DM->mtCompany->Edit();
+   dbgCompany->RowDetailPanel->Visible = true;
+   edCompanyShortName->SetFocus();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnCompanyAddClick(TObject *Sender)
+{  // Перейти в режим добавления, показать панель детальной информации
+   DM->mtCompany->Insert();
+   dbgCompany->RowDetailPanel->Visible = true;
+   cbCompanyStatus->Checked = false;
+   edCompanyShortName->SetFocus();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnCompanyDelClick(TObject *Sender)
+{  // TODO: удалить компанию
+   // проверить наличие сотрудников у компании
+   // если сотрудников нет - удалить компанию
+   // (при этом выдать запрос "Удалить / Перенести в архив")
+   // если есть сотрудники - пометить ее как архивную
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnCompanyShowAllClick(TObject *Sender)
+{  // Отобразить все компании / скрыть "архивные" компании
+   DM->qCompany->Active=false;
+   DM->mtCompany->Active=false;
+   DM->qCompany->SQL->Clear();
+   if (btnCompanyShowAll->Down) // отобразить все
+   {
+      DM->qCompany->SQL->Add("SELECT id_comp, short_name, full_name, address, status, note ");
+      DM->qCompany->SQL->Add("FROM company;");
+      btnCompanyShowAll->Hint = "Показать активные | Отобразить только действующие компании (активные)";
+   }
+   else   // нормальное состояние - архивные скрыты
+   {
+      DM->qCompany->SQL->Add("SELECT id_comp, short_name, full_name, address, status, note ");
+      DM->qCompany->SQL->Add("FROM company WHERE status=0;");
+      btnCompanyShowAll->Hint = "Показать все | Отобразить все компании (активные+в архиве)";
+   }
+   DM->qCompany->Active=true;
+   DM->mtCompany->Active=true;
+   dbgCompany->Refresh();
+   //dbgCompanySortMarkingChanged(Sender); // и отсортировать
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::btnCompanyExcelClick(TObject *Sender)
+{
+   // TODO: Список компаний в Excel
+      
+}
+//---------------------------------------------------------------------------
+/*
+void __fastcall TfrmMain::dbgCompanySortMarkingChanged(TObject *Sender)
+{  // Сортировка Компаний
+   DM->qCompany->Active=false;
+   DM->mtCompany->Active=false;
+   DM->qCompany->SQL->Clear();
+   switch (dbgCompany->Columns->Items[0]->Title->SortMarker)
+   {
+      case smUpEh:
+//         DM->qCompany->SQL->Add("SELECT id_comp, short_name, full_name, address, status, note ");
+//         DM->qCompany->SQL->Add("FROM company ORDER BY short_name ASC;");
+         DM->mtCompany->SortByFields("short_name");
+      break;
+      case smDownEh:
+         DM->qCompany->SQL->Add("SELECT id_comp, short_name, full_name, address, status, note ");
+         DM->qCompany->SQL->Add("FROM company ORDER BY short_name DESC;");
+      break;
+      case smNoneEh:
+         DM->qCompany->SQL->Add("SELECT id_comp, short_name, full_name, address, status, note ");
+         DM->qCompany->SQL->Add("FROM company;");
+      break;
+   }
+   DM->qCompany->Active=true;
+   DM->mtCompany->Active=true;
+   dbgCompany->Refresh();
+}      */
+//---------------------------------------------------------------------------
 

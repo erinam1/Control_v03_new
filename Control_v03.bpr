@@ -4,7 +4,8 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="Control_v03.exe"/>
-    <OBJFILES value="Control_v03.obj UnitMain.obj UnitDM.obj"/>
+    <OBJFILES value="Control_v03.obj UnitMain.obj UnitDM.obj 
+      &quot;..\EhLib 5.2.84\Common\EhLibADO.obj&quot; &quot;..\EhLib 5.2.84\Common\EhLibMTE.obj&quot;"/>
     <RESFILES value="Control_v03.res"/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
@@ -14,7 +15,10 @@
     <LIBRARIES value="EhLibDataDriversB60.lib EhLibB60.lib acntBCB6_R.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib acntBCB6_R.lib vclx.lib EhLibB60.lib dbrtl.lib vcldb.lib 
       adortl.lib EhLibDataDriversB60.lib bdertl.lib ibxpress.lib cds.lib 
-      dsnap.lib dbexpress.lib"/>
+      dsnap.lib dbexpress.lib vcldbx.lib bdecds.lib qrpt.lib teeui.lib teedb.lib 
+      tee.lib dss.lib teeqr.lib visualdbclx.lib dsnapcrba.lib dsnapcon.lib 
+      bcbsmp.lib inetdbbde.lib inetdbxpress.lib nmfast.lib bcbie.lib soaprtl.lib 
+      dclocx.lib dbxcds.lib indy.lib bcb2kaxserver.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi dbrtl.bpi adortl.bpi vcldb.bpi vclx.bpi bdertl.bpi 
       vcldbx.bpi ibxpress.bpi dsnap.bpi cds.bpi bdecds.bpi qrpt.bpi 
       visualclx.bpi visualdbclx.bpi dsnapcrba.bpi dsnapcon.bpi dbexpress.bpi 
@@ -23,7 +27,7 @@
       vclie.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi websnap.bpi 
       webdsnap.bpi indy.bpi nmfast.bpi teeqr.bpi"/>
     <PATHCPP value=".;"/>
-    <PATHPAS value=".;"/>
+    <PATHPAS value=".;&quot;..\EhLib 5.2.84\Common&quot;;&quot;..\EhLib 5.2.84\Common&quot;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
@@ -32,16 +36,16 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="Control_v03.cpp"/>
-    <INCLUDEPATH value="$(BCB)\Components\EhLib\Lib;$(BCB)\Components\acnt_regcb6\CB6;&quot;D:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;D:\_Control\Control_v02;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="$(BCB)\Components\EhLib\Lib;$(BCB)\Projects\Lib;$(BCB)\Components\acnt_regcb6\CB6;&quot;D:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;D:\_Control\Control_v02;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="&quot;..\EhLib 5.2.84\Common&quot;;$(BCB)\Components\EhLib\Lib;$(BCB)\Components\acnt_regcb6\CB6;&quot;D:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="&quot;..\EhLib 5.2.84\Common&quot;;$(BCB)\Components\EhLib\Lib;$(BCB)\Projects\Lib;$(BCB)\Components\acnt_regcb6\CB6;&quot;D:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <IDLCFLAGS value="-I$(BCB)\Components\EhLib\Lib -I$(BCB)\Components\acnt_regcb6\CB6 
-      -I&quot;D:\Program Files (x86)\Borland\CBuilder6\Projects&quot; 
-      -ID:\_Control\Control_v02 -I$(BCB)\include -I$(BCB)\include\vcl 
-      -src_suffix cpp -D_DEBUG -boa"/>
+    <IDLCFLAGS value="-I&quot;..\EhLib 5.2.84\Common&quot; -I$(BCB)\Components\EhLib\Lib 
+      -I$(BCB)\Components\acnt_regcb6\CB6 
+      -I&quot;D:\Program Files (x86)\Borland\CBuilder6\Projects&quot; -I$(BCB)\include 
+      -I$(BCB)\include\vcl -src_suffix cpp -D_DEBUG -boa"/>
     <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
       -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
@@ -62,6 +66,8 @@
       <FILE FILENAME="UnitMain.cpp" FORMNAME="frmMain" UNITNAME="UnitMain" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="UnitDM.cpp" FORMNAME="DM" UNITNAME="UnitDM" CONTAINERID="CCompiler" DESIGNCLASS="TDataModule" LOCALCOMMAND=""/>
       <FILE FILENAME="D:\Program Files (x86)\Borland\CBuilder6\Lib\Psdk\msimg32.lib" FORMNAME="" UNITNAME="msimg32.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\EhLib 5.2.84\Common\EhLibADO.Pas" FORMNAME="" UNITNAME="EhLibADO" CONTAINERID="PascalCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\EhLib 5.2.84\Common\EhLibMTE.pas" FORMNAME="" UNITNAME="EhLibMTE" CONTAINERID="PascalCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -94,6 +100,27 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
+
+[HistoryLists\hlIncludePath]
+Count=2
+Item0=$(BCB)\Components\EhLib\Lib;$(BCB)\Components\acnt_regcb6\CB6;D:\Program Files (x86)\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl
+Item1=$(BCB)\Components\EhLib\Lib;$(BCB)\Components\acnt_regcb6\CB6;D:\Program Files (x86)\Borland\CBuilder6\Projects;D:\_Control\Control_v02;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=2
+Item0=$(BCB)\Components\EhLib\Lib;$(BCB)\Projects\Lib;$(BCB)\Components\acnt_regcb6\CB6;D:\Program Files (x86)\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\Components\EhLib\Lib;$(BCB)\Projects\Lib;$(BCB)\Components\acnt_regcb6\CB6;D:\Program Files (x86)\Borland\CBuilder6\Projects;D:\_Control\Control_v02;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
@@ -118,10 +145,5 @@ LinkCGLIB=0
 AddServerUnit=1
 AddClientUnit=1
 PrecompiledHeaders=1
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
   </IDEOPTIONS>
 </PROJECT>

@@ -12,8 +12,8 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    {
        Application->Initialize();
        Application->CreateForm(__classid(TfrmMain), &frmMain);
-                 Application->CreateForm(__classid(TDM), &DM);
-                 Application->Run();
+       Application->CreateForm(__classid(TDM), &DM);
+       Application->Run();
    }
    catch (Exception &exception)
    {
